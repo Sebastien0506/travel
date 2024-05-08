@@ -20,8 +20,9 @@
        <header>
             {% include "navBar.html.twig" %}
        </header>
+        <h1>{% block h1 %}{% endblock %}</h1>
+
         {% block body %}{% endblock %}
-        {% block h1 %}{% endblock %}
 
         <footer></footer>
 

@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\Vol;
+use App\Entity\VilleImage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Vol>
+ * @extends ServiceEntityRepository<VilleImage>
  *
- * @method Vol|null find($id, $lockMode = null, $lockVersion = null)
- * @method Vol|null findOneBy(array $criteria, array $orderBy = null)
- * @method Vol[]    findAll()
- * @method Vol[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method VilleImage|null find($id, $lockMode = null, $lockVersion = null)
+ * @method VilleImage|null findOneBy(array $criteria, array $orderBy = null)
+ * @method VilleImage[]    findAll()
+ * @method VilleImage[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class VolRepository extends ServiceEntityRepository
+class VilleImageRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Vol::class);
+        parent::__construct($registry, VilleImage::class);
     }
 
 //    /**
-//     * @return Vol[] Returns an array of Vol objects
+//     * @return VilleImage[] Returns an array of VilleImage objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class VolRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Vol
+//    public function findOneBySomeField($value): ?VilleImage
 //    {
 //        return $this->createQueryBuilder('v')
 //            ->andWhere('v.exampleField = :val')

@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+
+{% block h1 %}Ajoutez une destination{% endblock %}
+
+{% block body %}
+    {{ form_start(form)}}
+        {{ form_row(form.nomDeLaDestination)}}
+
+        <button type="submit">Enregistrez</button>
+    {{ form_end(form)}}
+
+{% endblock %}
