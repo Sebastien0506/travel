@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+
+{% block h1 %}Ajoutez des avions{% endblock %}
+
+{% block body %}
+
+{{ form_start(form) }}
+    {{ form_row(form.nom) }}
+    {{ form_row(form.places) }}
+
+    <button type="submit">Enregistrez</button>
+{{ form_end(form) }}
+
+
+
+{% endblock %}
