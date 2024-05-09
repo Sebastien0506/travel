@@ -17,26 +17,35 @@ class AvionController extends AbstractController
     #[Route('add_avion', name:'ajoutez_avion')]
     public function addAvion(Request $request, EntityManagerInterface $em):Response
     {
+        //On créer une nouvel instance de l'entité Avion
         $avion = new Avion();
 
-        $form = $this->createForm(AvionType::class);
+        $form = $this->createForm(AvionType::class);//On crée le formulaire
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
+        if($form->isSubmitted() && $form->isValid())//Si le formulaire est soumis et qu'il est valide
         {
-            $nameAvion = $form->get('nom')->getData();
-            $numberOfPlaces = $form->get('places')->getData();
+            $nameAvion = $form->get('nom')->getData();//On récypère le nom de l'avion
+            $numberOfPlaces = $form->get('places')->getData();//On récupère le nombre de places disponible dans l'avion
             // dd($nameAvion, $numberOfPlaces);
-            $avion->setNom($nameAvion);
-            $avion->setPlaces($numberOfPlaces);
+            if(!is_numeric($numberOfPlaces) || (int)$numberOfPlaces != $numberOfPlaces) {
+                $this->addFlash('error', 'Le nombre de places doit être un nombre entier.');
+                return $this->render('avion/ajoutez_avion.html.twig', [
+                    'form' => $form->createView(),
+                ]);
+            }
+            $avion->setNom($nameAvion);//On set le nom de l'avion 
+            $avion->setPlaces($numberOfPlaces);//On set le nombre de places 
 
+            //On enregistre les données dans la base de donnée
             $em->persist($avion);
             $em->flush();
 
+            //On gère le redirection
             return $this->redirectToRoute('ajoutez_avion', [], Response::HTTP_SEE_OTHER);
         }
-
+        //On gère l'affichage du formulaire
         return $this->render('avion/ajoutez_avion.html.twig', [
             'form' => $form->createView(),
         ]);
@@ -45,11 +54,41 @@ class AvionController extends AbstractController
     #[Route('all_avion', name:'tous_les_avions')]
     public function allAvion(AvionRepository $avionRepository)
     {
-        $avions = $avionRepository->findAll();
+        $avions = $avionRepository->findAll();//On récupère tous les avions dans la base de données
         // dd($avion);
-
+      //On passe tous les avions récupérer à la vue 
       return $this->render('avion/all_avion.html.twig', [
             'avions' => $avions,
+        ]);
+    }
+
+    #[Route('/modify_avion/{id}', name:"modifier_avion", methods:['POST', 'GET'])]
+    public function avionModify(Request $request, EntityManagerInterface $em, int $id, AvionRepository $avionRepository):Response
+    {
+        $avion = $avionRepository->find($id);
+        // dd($avionModifier);
+
+        $form = $this->createForm(AvionType::class, $avion);
+
+        $form->handleRequest($request);
+
+        if($form-> isSubmitted() && $form->isValid())
+        {
+            $nomAvion = $form->get('nom')->getData();
+            $placesAvion = $form->get('places')->getData();
+
+            $avion->setNom($nomAvion);
+            $avion->setPlaces($placesAvion);
+
+            // dd($avionModifier);
+            $em->persist($avion);
+            $em->flush();
+            
+            return $this->redirectToRoute('tous_les_avions', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('avion/modifier_avion.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }

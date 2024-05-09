@@ -4,6 +4,14 @@
 
 {% block body %}
 
+{% for label, messages in app.flashes %}
+     {% for message in messages %}
+          <div class="flash-{{ label }}">
+               {{ message }}
+          </div>
+     {% endfor %}
+{% endfor %}
+
 {{ form_start(form) }}
     {{ form_row(form.nom) }}
     {{ form_row(form.places) }}

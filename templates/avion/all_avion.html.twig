@@ -11,13 +11,16 @@
     <tr>
       <th scope="col">Type de l'avion</th>
       <th scope="col">Nombre de places</th>
+      <th scope="col">Action</th>
     </tr>
   </thead>
   <tbody>
-    {% for avion in avions %} <!-- Remarquez le changement de 'avion' en 'avions' pour éviter la confusion et les erreurs -->
+    {% for avion in avions %} 
     <tr>
-      <td>{{ avion.nom }}</td> <!-- Type de l'avion dans la première colonne -->
-      <td>{{ avion.places }}</td> <!-- Nombre de places dans la seconde colonne -->
+      <td>{{ avion.nom }}</td>
+      <td>{{ avion.places }}</td>
+      <td><a href="{{ path('modifier_avion', {'id':avion.id}) }}">Modifier</a>/<a href="">Supprimer</a></td>
+      
     </tr>
     {% endfor %}
   </tbody>
