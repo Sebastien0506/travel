@@ -21,6 +21,13 @@ class AvionRepository extends ServiceEntityRepository
         parent::__construct($registry, Avion::class);
     }
 
+    public function delete(Avion $avion): void
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->remove($avion);
+        $entityManager->flush();
+    }
+
 //    /**
 //     * @return Avion[] Returns an array of Avion objects
 //     */

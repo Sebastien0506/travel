@@ -29,6 +29,8 @@ class AvionController extends AbstractController
             $nameAvion = $form->get('nom')->getData();//On récypère le nom de l'avion
             $numberOfPlaces = $form->get('places')->getData();//On récupère le nombre de places disponible dans l'avion
             // dd($nameAvion, $numberOfPlaces);
+
+            //Permet de vérifier si $numberOfPlaces est numérique et si il est un entier
             if(!is_numeric($numberOfPlaces) || (int)$numberOfPlaces != $numberOfPlaces) {
                 $this->addFlash('error', 'Le nombre de places doit être un nombre entier.');
                 return $this->render('avion/ajoutez_avion.html.twig', [
@@ -41,7 +43,8 @@ class AvionController extends AbstractController
             //On enregistre les données dans la base de donnée
             $em->persist($avion);
             $em->flush();
-
+            
+            $this->addFlash('success', 'Avion ajouté avec succès.');
             //On gère le redirection
             return $this->redirectToRoute('ajoutez_avion', [], Response::HTTP_SEE_OTHER);
         }
@@ -90,5 +93,30 @@ class AvionController extends AbstractController
         return $this->render('avion/modifier_avion.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('delete_avion/{id}', name:"supprimer_avion", methods:['POST'])]
+    public function deletedAvion(Request $request, AvionRepository $avionRepository, int $id): Response
+    {
+        $submittedToken = $request->request->get('token');
+        // dd($submittedToken);
+        if ($this->isCsrfTokenValid('delete-item', $submittedToken)){
+            $avionDelete = $avionRepository->find($id);
+            // dd($avionDelete);
+            if($avionDelete){
+                $avionRepository->delete($avionDelete);
+                // dd($avionDelete);
+
+                $this->addFlash('success', 'Avion supprimer avec succès.');
+
+                return $this->redirectToRoute('tous_les_avions', [], Response::HTTP_SEE_OTHER);
+            } else {
+                $this->addFlash('error', "Aucun avion trouvé avec l'id fourni.");
+
+                return $this->redirectToRoute('tous_les_avions', [], Response::HTTP_SEE_OTHER);
+            }
+        } else {
+            return new Response('Token invalide.', 403);
+        }
     }
 }
