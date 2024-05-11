@@ -25,7 +25,7 @@
     <tr>
       <td>{{ avion.nom }}</td>
       <td>{{ avion.places }}</td>
-      <td><a href="{{ path('modifier_avion', {'id':avion.id}) }}">Modifier</a>/{{ include ("avion/delete_avion.html.twig") }}
+      <td><button><a href="{{ path('modifier_avion', {'id':avion.id}) }}">Modifier</a></button>/{{ include ("avion/delete_avion.html.twig") }}
     
       
     </tr>

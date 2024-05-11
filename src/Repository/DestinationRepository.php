@@ -20,7 +20,23 @@ class DestinationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Destination::class);
     }
+       public function findAllDestionWithDestiantion()
+       {
+        return $this->createQueryBuilder('d')
+            ->leftJoin('d.avions', 'a')
+            ->addSelect('a')
+            ->getQuery()
+            ->getResult();
+       }
 
+       public function findAvionWithDestination()
+       {
+        return $this->createQueryBuilder('d')
+            ->leftJoin('d.avions', 'a')
+            ->addSelect('a')
+            ->getQuery()
+            ->getResult();
+       }
     // public function findAllDestination()
     // {
     //     return $this->createQueryBuilder('d')

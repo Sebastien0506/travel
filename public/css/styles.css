@@ -1,3 +1,13 @@
 body {
     background-color: blanchedalmond;
 }
+
+.table {
+    width: 50%;
+    margin: auto;
+    margin-top: 5%;
+}
+
+.destiantion {
+    width: 100%;
+}

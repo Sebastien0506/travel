@@ -4,10 +4,32 @@
 
 {% block body %}
 
-{% for destination in destination %}
+<div class="destiantion">
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Nom de la destination</th>
+      <th scope="col">Avion utilisé</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for destination in destinations %}  
+    <tr>
+      <td>{{ destination.nomDeLaDestination }}</td>
+      <td>
+        {% for avion in destination.avions %}
+          {{ avion.nom }}
+          {% if not loop.last %}, {% endif %}  
+        {% endfor %}
+      </td>
+      <td>
+        <a href="{{ path('modifiez_destionation', {'id': destination.id}) }}">Modifier</a> / <a href="#">Supprimer</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
-    {{destination.nomDeLaDestination}}
-        
-{%  endfor %}
-
+</div>
 {% endblock %}

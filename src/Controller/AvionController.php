@@ -98,24 +98,30 @@ class AvionController extends AbstractController
     #[Route('delete_avion/{id}', name:"supprimer_avion", methods:['POST'])]
     public function deletedAvion(Request $request, AvionRepository $avionRepository, int $id): Response
     {
+        //Récupère le token génerer dans la requête
         $submittedToken = $request->request->get('token');
-        // dd($submittedToken);
+    
+        //Vérifie si le Csrf est valide et que le token a été soumis
         if ($this->isCsrfTokenValid('delete-item', $submittedToken)){
-            $avionDelete = $avionRepository->find($id);
-            // dd($avionDelete);
+            $avionDelete = $avionRepository->find($id);//On récupère l'avion par sont id
+            
+            //Si l'avion est trouvé, on procède à sa suppression
             if($avionDelete){
+                //Utilise la fonction delete du repository pour supprimer l'avion
                 $avionRepository->delete($avionDelete);
-                // dd($avionDelete);
-
+                
+                //On affiche le message de succès 
                 $this->addFlash('success', 'Avion supprimer avec succès.');
-
+                
+                //On éxecute la redirection
                 return $this->redirectToRoute('tous_les_avions', [], Response::HTTP_SEE_OTHER);
             } else {
+                //Si aucun avion n'est trouvé, affiche un message d'erreur 
                 $this->addFlash('error', "Aucun avion trouvé avec l'id fourni.");
 
                 return $this->redirectToRoute('tous_les_avions', [], Response::HTTP_SEE_OTHER);
             }
-        } else {
+        } else {//Si le token est invalid, on renvoi un message d'erreur 
             return new Response('Token invalide.', 403);
         }
     }

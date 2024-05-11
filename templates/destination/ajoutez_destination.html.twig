@@ -5,6 +5,8 @@
 {% block body %}
     {{ form_start(form)}}
         {{ form_row(form.nomDeLaDestination)}}
+        {{ form_row(form.avion) }}
+        {{ form_row(form.images) }}
 
         <button type="submit">Enregistrez</button>
     {{ form_end(form)}}

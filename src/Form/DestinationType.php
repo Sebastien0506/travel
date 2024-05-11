@@ -2,10 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\Avion;
 use App\Entity\Destination;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\All;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -27,6 +29,13 @@ class DestinationType extends AbstractType
                         'message' => "Veuillez saisir le nom de la destination",
                     ]),
                 ],
+           ])
+           ->add('avions', EntityType::class, [
+            'label' => "Veuillez sélectionner le ou les avion pour cette destination",
+            'class' => Avion::class,
+            'choice_label' => "nom",
+            'multiple' => true,
+            'expanded' => true,
            ])
            ->add('images', FileType::class, [
             'label' => "Image",

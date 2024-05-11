@@ -21,9 +21,15 @@ class Destination
     #[ORM\OneToMany(targetEntity: VilleImage::class, mappedBy: 'destination', cascade:['persist'])]
     private Collection $villeImage;
 
+    #[ORM\ManyToMany(targetEntity: Avion::class, inversedBy: 'destinations')]
+    private Collection $avions;
+
+    
+
     public function __construct()
     {
         $this->villeImage = new ArrayCollection();
+        $this->avions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -72,4 +78,30 @@ class Destination
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Avion>
+     */
+    public function getAvions(): Collection
+    {
+        return $this->avions;
+    }
+
+    public function addAvion(Avion $avion): static
+    {
+        if (!$this->avions->contains($avion)) {
+            $this->avions->add($avion);
+        }
+
+        return $this;
+    }
+
+    public function removeAvion(Avion $avion): static
+    {
+        $this->avions->removeElement($avion);
+
+        return $this;
+    }
+
+   
 }

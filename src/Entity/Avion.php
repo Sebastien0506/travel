@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AvionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AvionRepository::class)]
@@ -18,6 +20,16 @@ class Avion
 
     #[ORM\Column]
     private ?int $places = null;
+
+    #[ORM\ManyToMany(targetEntity: Destination::class, mappedBy: 'avions')]
+    private Collection $destinations;
+
+    
+
+    public function __construct()
+    {
+        $this->destinations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -47,4 +59,33 @@ class Avion
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Destination>
+     */
+    public function getDestinations(): Collection
+    {
+        return $this->destinations;
+    }
+
+    public function addDestination(Destination $destination): static
+    {
+        if (!$this->destinations->contains($destination)) {
+            $this->destinations->add($destination);
+            $destination->addAvion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDestination(Destination $destination): static
+    {
+        if ($this->destinations->removeElement($destination)) {
+            $destination->removeAvion($this);
+        }
+
+        return $this;
+    }
+
+   
 }
