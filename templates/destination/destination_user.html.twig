@@ -1,0 +1,30 @@
+{% extends "base.html.twig" %}
+
+{% block h1 %}Toute les destinations de notre site {% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        {% for destination in allDestination %}
+            <div class="col-md-4">
+               <div class="card" style="width: 18rem;">
+                    {% for image in destination.villeImage %}
+                        <img src="{{ asset('/uploads/' ~ image.name)}}" alt="" style="height: 200px; width: 100%">
+                    {% endfor %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{destination.nomDeLaDestination}}</h5>
+                        <p class="card-text">bonjour</p>
+                        <a href="">Reservez</a>
+                    </div>
+     
+                   
+                </div>
+            </div>
+            
+        {% endfor %}
+        
+    </div>
+</div>
+
+{% endblock %}

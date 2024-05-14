@@ -4,6 +4,14 @@
 
 {% block body %}
 
+{% for label, messages in app.flashes %}
+     {% for message in messages %}
+          <div class="flash-{{ label }}">
+               {{ message }}
+          </div>
+     {% endfor %}
+{% endfor %}
+
 <div class="destiantion">
 <table class="table">
   <thead>
@@ -24,7 +32,7 @@
         {% endfor %}
       </td>
       <td>
-        <a href="{{ path('modifiez_destionation', {'id': destination.id}) }}">Modifier</a> / <a href="#">Supprimer</a>
+        <a href="{{ path('modifiez_destionation', {'id': destination.id}) }}">Modifier</a> / <a href="{{ path('view_destination', {'id': destination.id}) }}">Afficher la destination</a> {{ include ('destination/delete_destinations.html.twig')}}
       </td>
     </tr>
     {% endfor %}

@@ -3,11 +3,20 @@
 {% block h1 %}Modifier la destination{% endblock %}
 
 {% block body %}
-
+{% for label, messages in app.flashes %}
+     {% for message in messages %}
+          <div class="flash-{{ label }}">
+               {{ message }}
+          </div>
+     {% endfor %}
+{% endfor %}
     {{ form_start(form)}}
         {{ form_row(form.nomDeLaDestination)}}
         {{ form_row(form.avions)}}
-
+        {% for image in destination.villeImage %}
+            <img src="{{ asset('/uploads/' ~ image.name )}}" alt="" id="{{ image.id}}">
+            
+        {% endfor %}
         <button type="submit">Enregistrez les modifications</button>
     {{ form_end(form)}}
 

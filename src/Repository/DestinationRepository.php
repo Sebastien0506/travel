@@ -20,7 +20,7 @@ class DestinationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Destination::class);
     }
-       public function findAllDestionWithDestiantion()
+       public function findAllDestionWithDestination()
        {
         return $this->createQueryBuilder('d')
             ->leftJoin('d.avions', 'a')
@@ -30,6 +30,25 @@ class DestinationRepository extends ServiceEntityRepository
        }
 
        public function findAvionWithDestination()
+       {
+        return $this->createQueryBuilder('d')
+            ->leftJoin('d.avions', 'a')
+            ->addSelect('a')
+            ->getQuery()
+            ->getResult();
+       }
+
+       public function findAllDestinationAvionImageWithRelation(): array
+       {
+        return $this->createQueryBuilder('d')
+            ->leftJoin('d.avions', 'a')
+            ->addSelect('a')
+            ->leftJoin('d.villeImage', 'vi')
+            ->addSelect('vi')
+            ->getQuery()
+            ->getResult();
+       }
+       public function findAllDestinationAvionWithRelation(): array
        {
         return $this->createQueryBuilder('d')
             ->leftJoin('d.avions', 'a')

@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+
+{% block h1 %}Nom de la destination{% endblock %}
+
+{% block body %}
+
+{% for image in destinationView.villeImage %}
+    <img src="{{ asset('/uploads/' ~ image.name) }}" alt="" id='{{ image.id }}'>
+{% endfor %}
+     {{ include ('destination/delete_image.html.twig') }}
+
+{% endblock %}
